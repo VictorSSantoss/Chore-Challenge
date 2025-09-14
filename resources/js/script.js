@@ -19,14 +19,16 @@ const isClicked = door => {
   if (door.src === closedDoorPath) {
     return true;
   } else {
-    return false
-  };
+    return false;
+  }
 }
 
 const isBot = door => {
   if (door.src === botDoorPath) {
-    return true
-  };
+    return true;
+  } else {
+    return false;
+  }
 }
 
 const gameOver = status => {
@@ -39,13 +41,32 @@ const gameOver = status => {
 }
 
 const playDoor = door => {
-  numClosedDoors--
+  numClosedDoors--;
   if (numClosedDoors === 0) {
     return gameOver('win');
+  } if (isBot(door) === true) {
+    return gameOver();
   }
 }
 
-// Write logic above
+const randomChoreDoorGenerator = () => {
+  const choreDoor = Math.floor(Math.random() * numClosedDoors);
+  if (choreDoor === 0) {
+    openDoor1 = botDoorPath;
+    openDoor2 = beachDoorPath;
+    openDoor3 = spaceDoorPath;
+  } else if (choreDoor === 1) {
+    openDoor1 = beachDoorPath;
+    openDoor2 = botDoorPath;
+    openDoor3 = spaceDoorPath;
+  } else {
+    openDoor1 = beachDoorPath;
+    openDoor2 = spaceDoorPath;
+    openDoor3 = botDoorPath;
+  }
+}
+
+// Logic to open doors on click.
 doorImage1.onclick = () => {
   if (currentlyPlaying && isClicked(doorImage1)) {
     doorImage1.src = openDoor1;
@@ -74,3 +95,11 @@ startButton.onclick = () => {
 }
 
 // Start a game round
+const startRound = () => {
+  doorImage1.src = closedDoorPath;
+  doorImage2.src = closedDoorPath;
+  doorImage3.src = closedDoorPath;
+  randomChoreDoorGenerator();
+}
+
+startRound();
