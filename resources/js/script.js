@@ -15,39 +15,29 @@ let openDoor3;
 let currentlyPlaying = true;
 
 // Define game logic to check doors, progress game, end game, and choose a random chore door
-const isClicked = door => {
-  if (door.src === closedDoorPath) {
-    return true;
-  } else {
-    return false;
-  }
-}
 
-const isBot = door => {
-  if (door.src === botDoorPath) {
-    return true;
-  } else {
-    return false;
-  }
-}
+const isClicked = door => door.src === closedDoorPath;
+const isBot = door => door.src === botDoorPath;
 
 const gameOver = status => {
+    currentlyPlaying = false;
   if (status === 'win') {
-    return document.startButton.innerHTML = 'You win! Play again?';
+    startButton.innerHTML = 'You win! Play again?';
   } else {
-    return document.startButton.innerHTML = 'Game over! Play again?';
-  };
-  currentlyPlaying = false;
-}
+    startButton.innerHTML = 'Game over! Play again?';
+  }
+};
 
 const playDoor = door => {
+  if (isBot(door)) {
+    gameOver('lose');
+  }
+
   numClosedDoors--;
   if (numClosedDoors === 0) {
-    return gameOver('win');
-  } if (isBot(door) === true) {
-    return gameOver();
-  }
-}
+    gameOver('win');
+  } 
+};
 
 const randomChoreDoorGenerator = () => {
   const choreDoor = Math.floor(Math.random() * numClosedDoors);
@@ -64,7 +54,7 @@ const randomChoreDoorGenerator = () => {
     openDoor2 = spaceDoorPath;
     openDoor3 = botDoorPath;
   }
-}
+};
 
 // Logic to open doors on click.
 doorImage1.onclick = () => {
@@ -72,34 +62,37 @@ doorImage1.onclick = () => {
     doorImage1.src = openDoor1;
     playDoor(doorImage1);
   }
-}
+};
 
 doorImage2.onclick = () => {
   if (currentlyPlaying && isClicked(doorImage2)) {
     doorImage2.src = openDoor2;
     playDoor(doorImage2);
   }
-}
+};
 
 doorImage3.onclick = () => {
   if (currentlyPlaying && isClicked(doorImage3)) {
     doorImage3.src = openDoor3;
     playDoor(doorImage3);
   }
-}
+};
 
 startButton.onclick = () => {
   if (currentlyPlaying === false) {
     startRound();
   }
-}
+};
 
 // Start a game round
 const startRound = () => {
+  numClosedDoors = 3;
+  currentlyPlaying = true;
   doorImage1.src = closedDoorPath;
   doorImage2.src = closedDoorPath;
   doorImage3.src = closedDoorPath;
+  startButton.innerHTML = 'Good luck!'
   randomChoreDoorGenerator();
-}
+};
 
 startRound();
