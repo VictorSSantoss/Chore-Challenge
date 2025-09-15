@@ -1,5 +1,5 @@
 body {
-  background-color: #010165;
+  background-color: #06066c;
   margin: 0px;
 }
 
@@ -47,13 +47,15 @@ body {
 .door-frame {
   cursor: pointer;
   padding: 10px;
+  border-radius: 15px;
 }
 
 .start-row {
-  margin: auto;
+  margin: 12px auto;
   width: 120px;
   height: 43px;
-  background-color: #eb6536;
+  background-color: #FF2F00;
+  border-radius: 10px;
   padding-top: 18px;
   font-family: 'Work Sans';
   font-size: 18px;
@@ -61,4 +63,30 @@ body {
   color: #010165;
   margin-bottom: 9px;
   cursor: pointer;
+}
+
+.scores-container {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+}
+
+.score-row {
+  margin-top: 30px;
+  width: 200px;
+  border-radius: 10px;
+  padding: 2px;
+  background-color: aqua;
+  text-align: center;
+  color: #06066c;
+  font-family: 'Work Sans';
+}
+
+.score-text-row {
+  background-color: #010165;
+  color: #00ffff;
+}
+
+.score-text {
+  border-radius: 8px;
 }

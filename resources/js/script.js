@@ -7,37 +7,29 @@ let botDoorPath = 'https://content.codecademy.com/projects/chore-door/images/rob
 let beachDoorPath = 'https://content.codecademy.com/projects/chore-door/images/beach.svg';
 let spaceDoorPath = 'https://content.codecademy.com/projects/chore-door/images/space.svg';
 let closedDoorPath = 'https://content.codecademy.com/projects/chore-door/images/closed_door.svg';
-
 let numClosedDoors = 3;
 let openDoor1;
 let openDoor2;
 let openDoor3;
 let currentlyPlaying = true;
+let score = 0;
+let highestScore = 0;
+let currentStreak = document.getElementById('current-Streak');
+let bestStreak = document.getElementById('best-Streak');
 
 // Define game logic to check doors, progress game, end game, and choose a random chore door
 
-const isClicked = door => door.src === closedDoorPath;
-const isBot = door => door.src === botDoorPath;
+const isClicked = door => door.src.endsWith('closed_door.svg');
+const isBot = door => door.src.endsWith('robot.svg');
 
-const gameOver = status => {
-    currentlyPlaying = false;
-  if (status === 'win') {
-    startButton.innerHTML = 'You win! Play again?';
-  } else {
-    startButton.innerHTML = 'Game over! Play again?';
-  }
-};
-
-const playDoor = door => {
-  if (isBot(door)) {
-    gameOver('lose');
-  }
-
+const playDoor = (door) => {
   numClosedDoors--;
   if (numClosedDoors === 0) {
     gameOver('win');
-  } 
-};
+  } else if (isBot(door)) {
+    gameOver('lose');
+  }
+}
 
 const randomChoreDoorGenerator = () => {
   const choreDoor = Math.floor(Math.random() * numClosedDoors);
@@ -94,5 +86,26 @@ const startRound = () => {
   startButton.innerHTML = 'Good luck!'
   randomChoreDoorGenerator();
 };
+
+const gameOver = status => {
+    currentlyPlaying = false;
+  if (status === 'win') {
+    startButton.innerHTML = 'You win! Play again?';
+    playerScore();
+  } else {
+    startButton.innerHTML = 'Game over! Play again?';
+    score = 0;
+    currentStreak.innerHTML = score;
+  }
+};
+
+const playerScore = () => {
+  score++;
+  currentStreak.innerHTML = score;
+    if (score > highestScore) {
+    highestScore = score;
+    bestStreak.innerHTML = highestScore;
+  }
+}
 
 startRound();
